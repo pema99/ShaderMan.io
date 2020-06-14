@@ -412,9 +412,9 @@ Shader "ShaderMan/ShaderName"
 
 
 
-				input = input.replace(/(vec4(?!\())/gm, "float4");
-				input = input.replace(/(vec3(?!\())/gm, "float3");
-				input = input.replace(/(vec2(?!\())/gm, "float2");
+				input = input.replace(/(vec4(?!\s*\())/gm, "float4");
+				input = input.replace(/(vec3(?!\s*\())/gm, "float3");
+				input = input.replace(/(vec2(?!\s*\())/gm, "float2");
 				input = input.replace(/(vec(?!\d|\())/gm, "float");
 
 				input = input.replace(/(mat2)/gm, "float2x2");
@@ -501,6 +501,11 @@ Shader "ShaderMan/ShaderName"
 				{
 					BaseShader = BaseShader.replace(/\s+\n\s+\n/gm, "\n\n");
 				}
+
+                //Fix mat multiplication
+                BaseShader = BaseShader.replace(/([^\s]*)\s*\*=\s*(.*);/gm, function(match, g1, g2) {
+                    return g1+"=mul("+g1+", "+g2+");";
+                });
 
 				$("#Output").text(BaseShader);
 			}
