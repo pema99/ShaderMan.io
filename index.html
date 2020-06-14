@@ -1,96 +1,76 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
-    <script>
-    $(document).ready(function(){
-        function setWordOrder(e) {
-        if (e.key == " ") {
-            var textbox = document.getElementById("mytextarea");
-            textbox.value += "\u200F";
-        }
-      } 
-    });
-    </script>
-
-
-    <html>
-    <body>
-    
-    <div style="display: flex; justify-content: center;">
-    <img src="https://github.githubassets.com/images/modules/logos_page/Octocat.png" alt="Trulli" width="120" height="100" onclick="window.open(`https://github.com/smkplus/ShaderMan.io`)" style="cursor: pointer;">
-    </div>
-            <style>
-
-        div.InputField {
-                text-align: center;
-                resize: none;
-            }
-        
-            #Output{
-                 white-space:pre-wrap;
-                  }
-        
-        #mytextarea{
-            resize: none;
-        }
-        
-        textarea {
-        padding: 10px;
-        line-height: 1.5;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        box-shadow: 1px 1px 1px #999;
-        }
-
-            </style>
-
-    <div class="InputField">
-        
-
-        <h1>ShaderMan</h1>
-        
-        ShaderName:
-        
-        <input type="text" id = "ShaderName" name="FirstName" value="MyShader">
-        
-        
-        
-        
-        <h3>ShaderToy:</h3>
-
-        
-        <textarea spellcheck="false" rows="12" cols="100" style="font-family:monospace" id = "Input" onkeyup="setWordOrder(event)"></textarea>   
-        
-               <h1>
-          To
-        </h1>
-
-       <h3>ShaderLab:</h3>
-        
-        <div height="100%" width="100%" id="b"></div>
-
-        <textarea spellcheck="false" readonly ="readonly" rows="12" cols="100" style="font-family:monospace" id = "Output" onkeyup="setWordOrder(event)"></textarea>   
-
-        <br>
-        <button id = "Copy">
-            Copy
-        </button>
-        <br>
-        
-        </div>
-
 <script>
-$(document).ready(function(){
+	$(document).ready(function () {
+		function setWordOrder(e) {
+			if (e.key == " ") {
+				var textbox = document.getElementById("mytextarea");
+				textbox.value += "\u200F";
+			}
+		}
+	});
+</script>
 
 
+<html>
+<body>
+	<style>
+		#Output {
+			white-space: pre-wrap;
+		}
 
-$("#Copy").click(function(){
-    $(this).siblings('#Output').select();      
-    document.execCommand("copy");
-    alert("Copied");
-});
+		#mytextarea {
+			resize: none;
+		}
 
-$("#Input").text(`// by srtuss, 2013
+		textarea {
+			padding: 10px;
+			line-height: 1.5;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			box-shadow: 1px 1px 1px #999;
+			width: 100%;
+			height:88%;
+			resize:none;
+		}
+
+		.code {
+			width: 50%;
+			float: left;
+		}
+	</style>
+
+	<div>
+		<div class="code">
+			<h3>ShaderToy:</h3>
+			<textarea spellcheck="false" rows="12" cols="100" style="font-family:monospace" id="Input"
+				onkeyup="setWordOrder(event)"></textarea>
+		</div>
+		<div class="code">
+			<h3>ShaderLab:</h3>
+			<textarea spellcheck="false" readonly="readonly" rows="12" cols="100" style="font-family:monospace" id="Output"
+				onkeyup="setWordOrder(event)"></textarea>
+		</div>
+		
+		Name:
+		<input type="text" id="ShaderName" name="FirstName" value="MyShader">
+		<br>
+		<button id="Copy">
+			Copy
+		</button>
+	</div>
+
+	<script>
+		$(document).ready(function () {
+
+			$("#Copy").click(function () {
+				$(this).siblings('#Output').select();
+				document.execCommand("copy");
+				alert("Copied");
+			});
+
+			$("#Input").text(`// by srtuss, 2013
 // I love complex machines! :)
 // Still could use some optimisation.
 
@@ -104,7 +84,7 @@ float hash(float x)
 
 vec2 hash(vec2 p)
 {
-    p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
+	p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
 	return fract(sin(p) * 43758.5453);
 }
 
@@ -344,24 +324,20 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 		
 		z -= 0.6;
 	}
-	
-	
-	
-	
+		
 	v = 1.0 - v;// * pow(1.0 - abs(uv.x), 0.1);
 	
 	fragColor = vec4(v, v, v, 1.0);
 }`);
 
-  function convert(){
-     var input = "";
+			function convert() {
+				var input = "";
 
-
-    var BaseShader = `
+				var BaseShader = `
 Shader "ShaderMan/ShaderName"
 {
 	Properties { 
-		// Properties
+		//Properties
 	}
 	SubShader
 	{
@@ -385,12 +361,20 @@ Shader "ShaderMan/ShaderName"
 			float2 vec2(float x,float y){return float2(x,y);}
 			float2 vec2(float x){return float2(x,x);}
 			float vec(float x){return float(x);}
+			float mix(float x, float y, float t){return lerp(x, y, t);}
+			float2 mix(float2 x, float2 y, float t){return lerp(x, y, t);}
+			float3 mix(float3 x, float3 y, float t){return lerp(x, y, t);}
+			float4 mix(float4 x, float4 y, float t){return lerp(x, y, t);}
+			float mod(float x, float y){return x-y*floor(x/y);}
+			float2 mod(float2 x, float2 y){return x-y*floor(x/y);}
+			float3 mod(float3 x, float3 y){return x-y*floor(x/y);}
+			float4 mod(float4 x, float4 y){return x-y*floor(x/y);}
 
 			struct VertexInput {
-		    		float4 vertex: POSITION;
+				float4 vertex: POSITION;
 				float2 uv: TEXCOORD0;
-		    		float4 tangent: TANGENT;
-		    		float3 normal: NORMAL;
+				float4 tangent: TANGENT;
+				float3 normal: NORMAL;
 				//VertexInput
 			};
 
@@ -409,9 +393,9 @@ Shader "ShaderMan/ShaderName"
 				o.uv = v.uv;
 				return o;
 			}
-    
+
 			//Functions
-    
+	
 			fixed4 frag(VertexOutput vertex_output) : SV_Target
 			{
 				//MainImage
@@ -422,210 +406,121 @@ Shader "ShaderMan/ShaderName"
 }
 `;
 
-		
-    
-    input = $("#Input").val();
-
-    
-
-    input = input.replace(/(vec4(?!\())/gm,"float4");
-    input = input.replace(/(vec3(?!\())/gm,"float3");
-    input = input.replace(/(vec2(?!\())/gm,"float2");
-    input = input.replace(/(vec(?!\d|\())/gm,"float");
-
-    input = input.replace(/(mat2)/gm,"float2x2");
-    input = input.replace(/(mat3)/gm,"float3x3");
-    input = input.replace(/(mat4)/gm,"float4x4");
-    
-    input = input.replace(/(mix)/gm,"lerp");
-
-    input = input.replace(/(iGlobalTime)/gm,"_Time.y");
-    input = input.replace(/iTime/gm,"_Time.y");
-
-    input = input.replace(/(fract)/gm,"frac");
-    input = input.replace(/(fragColor\s*=)/gm,"return");
-    input = input.replace(/(texture)/gm,"tex2D");
-    input = input.replace(/(tex2DLod)/gm,"tex2Dlod");
-    input = input.replace(/(refrac)/gm,"refract");
-    input = input.replace(/(iChannel0)/gm,"_MainTex");
-    input = input.replace(/(iChannel1)/gm,"_SecondTex");
-    input = input.replace(/(iChannel2)/gm,"_ThirdTex");
-    input = input.replace(/(iChannel3)/gm,"_FourthTex");
-    input = input.replace(/(iMouse)/gm,"_iMouse");
-    
-    input = input.replace(/(iResolution.((x|y){1,2})?)/gm,"1");
-    input = input.replace(/(fragCoord.xy\s*\/\s*iResolution.xy)/gm,"vertex_output.uv");
-    input = input.replace(/(fragCoord(.xy)?)/gm,"vertex_output.uv");
-    input = input.replace(/(iResolution(\.(x|y){1,2})?)/gm,"1");
-    
-    input = input.replace(/mod/gm,"fmod");
-    input = input.replace(/for\(/gm,"[unroll(100)]\nfor(");
-
-    
-    input = input.replace(/(tex2Dlod\()([^,]+\,)([^)]+\)?[)]+.+(?=\)))/gm,"$1$2float4($3,0)");
-    input = input.replace(/fixed4\(([^(,]+?)\)/gm,"fixed4($1,$1,$1,$1)");
-    input = input.replace(/fixed3\(([^(,]+?)\)/gm,"fixed3($1,$1,$1)");
-    input = input.replace(/fixed2\(([^(,]+?)\)/gm,"fixed2($1,$1)");
-    input = input.replace(/tex2D\(([^,]+)\,\s*fixed2\(([^,].+)\)\,(.+)\)/gm,"tex2Dlod($1,fixed4($2,fixed2($3,$3)))");//when vec3 col = texture( iChannel0, vec2(uv.x,1.0-uv.y), lod ).xyz; -> https://www.shadertoy.com/view/4slGWn
-    
-    input = input.replace(/texelFetch/gm,"tex2D)");//badan bokonesh texlod
-    input = input.replace(/atan\(([^,]+?)\,([^,]+?)\)/gm,"atan2($2,$1)"); //badan bokonesh texlod
-    
-    input = input.replace(/([*+\\/-])\\s*(pi|PI)/gm,"$13.14159265359");
-
-	  input = input.replace(/(gl_FragCoord)/gm,"(i.screenCoord.xy/i.screenCoord.w)*_ScreenParams.xy)");
-    input = input.replace(/#ifdef\s*GL_ES[^#].+#endif/gms,"");
-    
 
 
-    var functions = input.replace(/void\s+mainImage[^\{]+\{(.+)\}$/gms,"");
-
-var mainImageRegex = /void\s+mainImage[^\{]+\{(.+)\}$/gms;
-var mainImagematch = mainImageRegex.exec(input);
-   
-  
-   BaseShader = BaseShader.replace(/ShaderName/gm,$("#ShaderName").val());
-   BaseShader = BaseShader.replace(/(\/\/MainImage)/gm,mainImagematch[1]);
-   BaseShader = BaseShader.replace(/(\/\/Functions)/gm,functions);
-   
-   var properties = "";
-   var variables = "";
-   
-   if(input.includes("_MainTex")){
-   properties += '_MainTex("MainTex",2D) = "white"{} \n';
-   variables += 'sampler2D _MainTex; \n';
-	 }
-   if(input.includes("_SecondTex")){
-   properties += '_SecondTex("SecondTex",2D) = "white"{} \n';
-   variables += 'sampler2D _SecondTex; \n';
-	 }
-   if(input.includes("_ThirdTex")){
-   properties += '_ThirdTex("ThirdTex",2D) = "white"{} \n';
-   variables += 'sampler2D _ThirdTex; \n';
-	 }
-   if(input.includes("_FourthTex")){
-   properties += '_FourthTex("FourthTex",2D) = "white"{} \n';
-   variables += 'sampler2D _FourthTex; \n';
-	 }
-   
-   BaseShader = BaseShader.replace(/(\/\/Properties)/gm,properties);
-   BaseShader = BaseShader.replace(/(\/\/Variables)/gm,variables);
-	$("#Output").text(BaseShader);
-
-  }
-  
-  convert();
-  
-   $("#Input").on("input", function(){
- 	convert();
-  });
-  
-  $("#ShaderName").on("input", function(){
- 	convert();
-  });
-
-  
-});
-
-</script>
+				input = $("#Input").val();
 
 
 
-    </body>
-    </html>
-    
-    
+				input = input.replace(/(vec4(?!\())/gm, "float4");
+				input = input.replace(/(vec3(?!\())/gm, "float3");
+				input = input.replace(/(vec2(?!\())/gm, "float2");
+				input = input.replace(/(vec(?!\d|\())/gm, "float");
+
+				input = input.replace(/(mat2)/gm, "float2x2");
+				input = input.replace(/(mat3)/gm, "float3x3");
+				input = input.replace(/(mat4)/gm, "float4x4");
+
+				input = input.replace(/(mix)/gm, "lerp");
+
+				input = input.replace(/(iGlobalTime)/gm, "_Time.y");
+				input = input.replace(/iTime/gm, "_Time.y");
+
+				input = input.replace(/(fract)/gm, "frac");
+				input = input.replace(/(fragColor\s*=)/gm, "return ");
+				input = input.replace(/(texture)/gm, "tex2D");
+				input = input.replace(/(tex2DLod)/gm, "tex2Dlod");
+				input = input.replace(/(refrac)/gm, "refract");
+				input = input.replace(/(iChannel0)/gm, "_MainTex");
+				input = input.replace(/(iChannel1)/gm, "_SecondTex");
+				input = input.replace(/(iChannel2)/gm, "_ThirdTex");
+				input = input.replace(/(iChannel3)/gm, "_FourthTex");
+				input = input.replace(/(iMouse)/gm, "_iMouse");
+
+				input = input.replace(/(iResolution.((x|y){1,2})?)/gm, "float2(1,1)");
+				input = input.replace(/(fragCoord.xy\s*\/\s*iResolution.xy)/gm, "vertex_output.uv");
+				input = input.replace(/(fragCoord(.xy)?)/gm, "vertex_output.uv");
+				input = input.replace(/(iResolution(\.(x|y){1,2})?)/gm, "1");
+
+				input = input.replace(/(tex2Dlod\()([^,]+\,)([^)]+\)?[)]+.+(?=\)))/gm, "$1$2float4($3,0)");
+				input = input.replace(/fixed4\(([^(,]+?)\)/gm, "fixed4($1,$1,$1,$1)");
+				input = input.replace(/fixed3\(([^(,]+?)\)/gm, "fixed3($1,$1,$1)");
+				input = input.replace(/fixed2\(([^(,]+?)\)/gm, "fixed2($1,$1)");
+				input = input.replace(/tex2D\(([^,]+)\,\s*fixed2\(([^,].+)\)\,(.+)\)/gm, "tex2Dlod($1,fixed4($2,fixed2($3,$3)))");//when vec3 col = texture( iChannel0, vec2(uv.x,1.0-uv.y), lod ).xyz; -> https://www.shadertoy.com/view/4slGWn
+
+				input = input.replace(/texelFetch/gm, "tex2D)");//badan bokonesh texlod
+				input = input.replace(/atan\(([^,]+?)\,([^,]+?)\)/gm, "atan2($2,$1)"); //badan bokonesh texlod
+
+				input = input.replace(/([*+\\/-])\\s*(pi|PI)/gm, "$13.14159265359");
+
+				input = input.replace(/(gl_FragCoord)/gm, "(i.screenCoord.xy/i.screenCoord.w)*_ScreenParams.xy)");
+				input = input.replace(/#ifdef\s*GL_ES[^#].+#endif/gms, "");
 
 
-<background>
 
-    <style>
-    background {
-    z-index : -9999;
-    position: absolute;
-    top : 0;
-    left    : 0;
-    width   : 100%;
-    height  : 100%;
-    margin  : 0;
-    padding : 0;
-}
-</style>
+				var functions = input.replace(/void\s+mainImage[^\{]+\{(.+)\}$/gms, "");
 
-    <div id="container"></div>
-    <script src="js/three.min.js"></script>
-    <script id="vertexShader" type="x-shader/x-vertex">
-        void main() {
-            gl_Position = vec4( position, 1.0 );
-        }
-    <script>
-        var container;
-        var camera, scene, renderer;
-        var uniforms;
-
-        init();
-        animate();
-
-        function init() {
-            container = document.getElementById( 'container' );
-
-            camera = new THREE.Camera();
-            camera.position.z = 1;
-
-            scene = new THREE.Scene();
-
-            var geometry = new THREE.PlaneBufferGeometry( 2, 2 );
-
-            uniforms = {
-                u_time: { type: "f", value: 1.0 },
-                u_resolution: { type: "v2", value: new THREE.Vector2() },
-                u_mouse: { type: "v2", value: new THREE.Vector2() }
-            };
-
-            var material = new THREE.ShaderMaterial( {
-                uniforms: uniforms,
-                vertexShader: document.getElementById( 'vertexShader' ).textContent,
-                fragmentShader: document.getElementById( 'fragmentShader' ).textContent
-            } );
-
-            var mesh = new THREE.Mesh( geometry, material );
-            scene.add( mesh );
-            
-
-            renderer = new THREE.WebGLRenderer();
-            renderer.setPixelRatio( window.devicePixelRatio );
-
-            container.appendChild( renderer.domElement );
-
-            onWindowResize();
-            window.addEventListener( 'resize', onWindowResize, false );
-
-            document.onmousemove = function(e){
-              uniforms.u_mouse.value.x = e.pageX
-              uniforms.u_mouse.value.y = e.pageY
-            }
-        }
-
-        function onWindowResize( event ) {
-            renderer.setSize( window.innerWidth, window.innerHeight );
-            uniforms.u_resolution.value.x = renderer.domElement.width;
-            uniforms.u_resolution.value.y = renderer.domElement.height;
-        }
-
-        function animate() {
-            requestAnimationFrame( animate );
-            render();
-        }
-
-        function render() {
-            uniforms.u_time.value += 0.05;
-            renderer.render( scene, camera );
-        }
-        
-        
-    </script>
-    
+				var mainImageRegex = /void\s+mainImage[^\{]+\{(.+)\}$/gms;
+				var mainImagematch = mainImageRegex.exec(input);
 
 
-</background>
+				BaseShader = BaseShader.replace(/ShaderName/gm, $("#ShaderName").val());
 
+				var indent = (/\n(.*)\/\/MainImage/gm).exec(BaseShader)[1];
+				BaseShader = BaseShader.replace(/(\/\/MainImage)/gm, mainImagematch[1].replace(/\n/g, "\n"+indent));
+				indent = (/\n(.*)\/\/Functions/gm).exec(BaseShader)[1];
+				BaseShader = BaseShader.replace(/(\/\/Functions)/gm, functions.replace(/\n/g, "\n"+indent));
+
+				var properties = "";
+				var variables = "";
+
+				if (input.includes("_MainTex")) {
+					properties += '_MainTex("MainTex",2D) = "white"{} \n';
+					variables += 'sampler2D _MainTex; \n';
+				}
+				if (input.includes("_SecondTex")) {
+					properties += '_SecondTex("SecondTex",2D) = "white"{} \n';
+					variables += 'sampler2D _SecondTex; \n';
+				}
+				if (input.includes("_ThirdTex")) {
+					properties += '_ThirdTex("ThirdTex",2D) = "white"{} \n';
+					variables += 'sampler2D _ThirdTex; \n';
+				}
+				if (input.includes("_FourthTex")) {
+					properties += '_FourthTex("FourthTex",2D) = "white"{} \n';
+					variables += 'sampler2D _FourthTex; \n';
+				}
+
+				indent = (/\n(.*)\/\/Properties/gm).exec(BaseShader)[1];
+				BaseShader = BaseShader.replace(/(\/\/Properties)/gm, properties.replace(/\n/g, "\n"+indent));
+				indent = (/\n(.*)\/\/Variables/gm).exec(BaseShader)[1];
+				BaseShader = BaseShader.replace(/(\/\/Variables)/gm, variables.replace(/\n/g, "\n"+indent));
+
+				//Never do this lmao
+				for (var i = 0; i < 100; i++)
+				{
+					BaseShader = BaseShader.replace(/\s+\n\s+\n/gm, "\n\n");
+				}
+
+				$("#Output").text(BaseShader);
+			}
+
+			convert();
+
+			$("#Input").on("input", function () {
+				convert();
+			});
+
+			$("#ShaderName").on("input", function () {
+				convert();
+			});
+
+
+		});
+
+	</script>
+
+
+
+</body>
+</html>
