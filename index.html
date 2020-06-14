@@ -441,9 +441,9 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     input = input.replace(/(vec2(?!\())/gm,"float2");
     input = input.replace(/(vec(?!\d|\())/gm,"float");
 
-    input = input.replace(/(mat2)/gm,"float4x4");
+    input = input.replace(/(mat2)/gm,"float2x2");
     input = input.replace(/(mat3)/gm,"float3x3");
-    input = input.replace(/(mat4)/gm,"float3x3");
+    input = input.replace(/(mat4)/gm,"float4x4");
     
     input = input.replace(/(mix)/gm,"lerp");
 
